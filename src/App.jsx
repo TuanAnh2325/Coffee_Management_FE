@@ -13,6 +13,7 @@ import InventoryView from './components/InventoryView';
 import UsersView from './components/UsersView';
 import ReceiptModal from './components/ReceiptModal';
 import Toast from './components/Toast';
+import { Menu } from 'lucide-react';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
