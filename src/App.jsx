@@ -24,6 +24,7 @@ export default function App() {
     return user;
   });
   const [activeTab, setActiveTab] = useState('pos');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -437,9 +438,50 @@ export default function App() {
             cartCount={cartCount}
             currentUser={currentUser}
             onLogout={handleLogout}
+            isMobileOpen={isMobileSidebarOpen}
+            onCloseMobile={() => setIsMobileSidebarOpen(false)}
           />
-          <main style={{ flex: 1, minWidth: 0, overflowY: 'auto' }}>
-            {renderMainContent()}
+          <main style={{ flex: 1, minWidth: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+            {/* Mobile Header on screens <= 900px */}
+            <div className="admin-mobile-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <button
+                  type="button"
+                  onClick={() => setIsMobileSidebarOpen(true)}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-app)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--primary-roast)',
+                    border: '1px solid var(--border-light)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Menu size={20} />
+                </button>
+                <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary-roast)', fontFamily: 'var(--font-heading)' }}>
+                  Aroma Coffee
+                </span>
+              </div>
+              <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--caramel)' }}>
+                {activeTab === 'pos' ? 'Bán hàng (POS)' :
+                 activeTab === 'tables' ? 'Sơ đồ bàn' :
+                 activeTab === 'orders' ? 'Lịch sử đơn' :
+                 activeTab === 'menu' ? 'Quản lý thực đơn' :
+                 activeTab === 'categories' ? 'Quản lý danh mục' :
+                 activeTab === 'users' ? 'Quản lý nhân viên' :
+                 activeTab === 'reports' ? 'Báo cáo doanh thu' :
+                 activeTab === 'inventory' ? 'Quản lý kho hàng' : 'Hệ thống'}
+              </span>
+            </div>
+
+            <div style={{ flex: 1, width: '100%' }}>
+              {renderMainContent()}
+            </div>
           </main>
         </div>
       ) : (

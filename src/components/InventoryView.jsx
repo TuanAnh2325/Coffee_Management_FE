@@ -34,7 +34,7 @@ export default function InventoryView({ inventory, onUpdateStock }) {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}>
+    <div className="page-container">
       <div style={{ marginBottom: 24 }}>
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 700, color: 'var(--primary-roast)', margin: '0 0 4px' }}>
           Quản lý tồn kho sản phẩm & nguyên vật liệu

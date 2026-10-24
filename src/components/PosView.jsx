@@ -134,15 +134,7 @@ export default function PosView({
   };
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 380px',
-      gap: 24,
-      maxWidth: 1600,
-      margin: '0 auto',
-      padding: '24px',
-      minHeight: 'calc(100vh - 80px)'
-    }}>
+    <div className="pos-grid-container">
       {/* LEFT: MENU & PRODUCT CATALOG */}
       <div>
         {/* Search & Filter Header */}

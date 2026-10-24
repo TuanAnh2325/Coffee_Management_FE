@@ -29,9 +29,8 @@ export default function Navbar({ activeTab, setActiveTab, cartCount, currentUser
       boxShadow: 'var(--shadow-sm)'
     }}>
       <div style={{
-        maxWidth: 1600,
-        margin: '0 auto',
-        padding: '12px 24px',
+        width: '100%',
+        padding: '12px 32px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

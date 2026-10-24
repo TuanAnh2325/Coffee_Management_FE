@@ -74,7 +74,7 @@ export default function CategoryView({ categories, products, onAddCategory, onUp
   };
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '24px' }}>
+    <div className="page-container">
       {/* Top Header */}
       <div style={{
         display: 'flex',

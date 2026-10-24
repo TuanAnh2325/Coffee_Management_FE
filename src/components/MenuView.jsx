@@ -140,7 +140,7 @@ export default function MenuView({ categories, products, onAddProduct, onUpdateP
   };
 
   return (
-    <div style={{ maxWidth: 1600, margin: '0 auto', padding: '24px' }}>
+    <div className="page-container">
       {/* Top Header */}
       <div style={{
         display: 'flex',

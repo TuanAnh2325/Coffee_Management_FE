@@ -98,7 +98,7 @@ export default function TablesView({ tables, onUpdateStatus, onCreateTable, onUp
   };
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '24px' }}>
+    <div className="page-container">
       {/* Header & Area Filter */}
       <div style={{
         display: 'flex',

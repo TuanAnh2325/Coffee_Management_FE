@@ -123,3 +123,117 @@ input:focus, select:focus, textarea:focus {
 .animate-scale-in {
   animation: scaleIn 0.25s ease-out forwards;
 }
+
+/* Responsive Page Layout & Containers */
+.page-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 24px 32px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 16px 12px;
+  }
+}
+
+/* POS Layout */
+.pos-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  padding: 24px 32px;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
+  .pos-grid-container {
+    grid-template-columns: 1fr;
+    padding: 18px 16px;
+  }
+}
+
+/* Admin Mobile Header */
+.admin-mobile-header {
+  display: none;
+  align-items: center;
+  justifyContent: space-between;
+  padding: 12px 18px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 45;
+}
+
+@media (max-width: 900px) {
+  .admin-mobile-header {
+    display: flex;
+  }
+}
+
+/* Responsive Table Wrapper */
+.responsive-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Admin Sidebar Responsive Drawer */
+.admin-sidebar {
+  width: 250px;
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  z-index: 40;
+  transition: transform var(--transition-normal);
+}
+
+.admin-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .admin-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-sidebar-backdrop.open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(36, 20, 13, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 95;
+  }
+
+  .admin-sidebar-close-btn {
+    display: flex !important;
+  }
+}

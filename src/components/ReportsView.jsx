@@ -94,7 +94,7 @@ export default function ReportsView({ report: initialTodayReport, onRefresh }) {
   ] : [];
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}>
+    <div className="page-container">
       {/* Top Header & Switcher */}
       <div style={{
         display: 'flex',
