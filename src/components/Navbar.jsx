@@ -134,7 +134,7 @@ export default function Navbar({ activeTab, setActiveTab, cartCount, currentUser
             fontWeight: 600,
             color: isAdmin ? 'var(--primary-roast)' : '#0369A1'
           }}>
-            {isAdmin ? 'Quản trị viên' : 'Nhân viên thu ngân'}: <span style={{ fontWeight: 700 }}>{currentUser?.fullName || currentUser?.username}</span>
+            {isAdmin ? 'Quản trị viên' : 'Nhân viên thu ngân'}: <span style={{ fontWeight: 700 }}>{currentUser?.fullName && !currentUser.fullName.includes('?') ? currentUser.fullName : (isAdmin ? 'Quản trị viên' : 'Nhân viên thu ngân')}</span>
           </div>
 
           {/* Nut Dang xuat */}

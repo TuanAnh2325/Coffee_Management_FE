@@ -14,7 +14,14 @@ import ReceiptModal from './components/ReceiptModal';
 import Toast from './components/Toast';
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(() => api.getCurrentUser());
+  const [currentUser, setCurrentUser] = useState(() => {
+    const user = api.getCurrentUser();
+    if (user && user.fullName && user.fullName.includes('?')) {
+      user.fullName = user.role === 'ROLE_ADMIN' ? 'Quản trị viên' : 'Nhân viên thu ngân';
+      localStorage.setItem('coffee_pos_user', JSON.stringify(user));
+    }
+    return user;
+  });
   const [activeTab, setActiveTab] = useState('pos');
   const [cart, setCart] = useState([]);
   const [categories, setCategories] = useState([]);

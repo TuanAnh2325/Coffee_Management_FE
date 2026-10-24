@@ -148,10 +148,10 @@ export default function AdminSidebar({ activeTab, setActiveTab, cartCount, curre
           border: '1px solid var(--border-light)'
         }}>
           <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
-            Quản trị viên
+            Tài khoản
           </div>
           <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text-main)', marginTop: 2 }}>
-            {currentUser?.fullName || currentUser?.username}
+            {currentUser?.fullName && !currentUser.fullName.includes('?') ? currentUser.fullName : 'Quản trị viên'}
           </div>
         </div>
 
