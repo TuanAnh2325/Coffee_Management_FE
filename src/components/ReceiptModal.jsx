@@ -8,6 +8,24 @@ export default function ReceiptModal({ order, onClose }) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount || 0);
   };
 
+  const formatDateTime = (val) => {
+    if (!val) return new Date().toLocaleString('vi-VN');
+    try {
+      const d = new Date(val);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleString('vi-VN', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+      }
+    } catch (e) {}
+    return val;
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -40,6 +58,7 @@ export default function ReceiptModal({ order, onClose }) {
         {/* Close Button */}
         <button
           onClick={onClose}
+          type="button"
           style={{
             position: 'absolute',
             top: 18,
@@ -90,21 +109,16 @@ export default function ReceiptModal({ order, onClose }) {
           color: 'var(--text-main)',
           marginBottom: 20
         }}>
-          <div style={{ textAlign: 'center', borderBottom: '1px dashed var(--border-light)', paddingBottom: 12, marginBottom: 12 }}>
+          {/* Shop Name Header */}
+          <div style={{ textAlign: 'center', borderBottom: '1px dashed var(--border-light)', paddingBottom: 10, marginBottom: 12 }}>
             <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary-roast)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               <Coffee size={18} color="var(--caramel)" /> AROMA COFFEE SHOP
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-              123 Đường Cà Phê, Quận 1, TP. Hồ Chí Minh
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-              Hotline: 1900 6868 • Wifi: AromaCoffee / Pass: 88888888
             </div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
             <span style={{ color: 'var(--text-muted)' }}>Thời gian:</span>
-            <span>{order.createdAt || new Date().toLocaleString('vi-VN')}</span>
+            <span>{formatDateTime(order.createdAt)}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
             <span style={{ color: 'var(--text-muted)' }}>Hình thức:</span>
@@ -139,12 +153,27 @@ export default function ReceiptModal({ order, onClose }) {
               {formatMoney(order.totalAmount)}
             </span>
           </div>
+
+          {/* Footer: Địa chỉ trường Đại học CMC, Hotline & Wifi đặt ở cuối phía trên các nút */}
+          <div style={{
+            marginTop: 14,
+            paddingTop: 10,
+            borderTop: '1px dashed var(--border-light)',
+            textAlign: 'center',
+            fontSize: 11,
+            color: 'var(--text-muted)',
+            lineHeight: 1.5
+          }}>
+            <div>Trường Đại học CMC - Số 84 Cầu Giấy, Quan Hoa, Cầu Giấy, Hà Nội</div>
+            <div>Hotline: 024 7102 9999 • Wifi: Đại học CMC / Pass: cmc@2024</div>
+          </div>
         </div>
 
         {/* Action Buttons */}
         <div style={{ display: 'flex', gap: 10 }}>
           <button
             onClick={handlePrint}
+            type="button"
             style={{
               flex: 1,
               display: 'flex',
@@ -164,6 +193,7 @@ export default function ReceiptModal({ order, onClose }) {
           </button>
           <button
             onClick={onClose}
+            type="button"
             style={{
               flex: 1,
               padding: '12px',
