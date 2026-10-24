@@ -1,7 +1,7 @@
 import React from 'react';
-import { DollarSign, ShoppingBag, Banknote, QrCode, TrendingUp, Award } from 'lucide-react';
+import { DollarSign, ShoppingBag, Banknote, QrCode, TrendingUp, Award, RefreshCw } from 'lucide-react';
 
-export default function ReportsView({ report }) {
+export default function ReportsView({ report, onRefresh }) {
   const formatMoney = (amount) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount || 0);
   };
@@ -47,13 +47,35 @@ export default function ReportsView({ report }) {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}>
-      <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, fontWeight: 700, color: 'var(--primary-roast)' }}>
-          Báo cáo doanh thu & Hiệu suất bán hàng
-        </h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
-          Số liệu thống kê tự động cập nhật theo ca làm việc trong ngày
-        </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 700, color: 'var(--primary-roast)', margin: '0 0 4px' }}>
+            Báo cáo doanh thu & Hiệu suất bán hàng
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Số liệu thống kê tự động cập nhật theo ca làm việc trong ngày
+          </p>
+        </div>
+        {onRefresh && (
+          <button
+            onClick={onRefresh}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '8px 14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: '#fff',
+              border: '1px solid var(--border-light)',
+              color: 'var(--primary-roast)',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            <RefreshCw size={14} /> Làm mới số liệu
+          </button>
+        )}
       </div>
 
       {/* 4 Stat Cards */}

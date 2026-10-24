@@ -58,6 +58,17 @@ export default function App() {
     }
   }, [currentUser, activeTab]);
 
+  // Tu dong lam moi so lieu khi chuyen tab Bao cao hoac Don hang
+  useEffect(() => {
+    if (currentUser) {
+      if (activeTab === 'reports') {
+        api.getTodayReport().then(rep => setReport(rep)).catch(() => {});
+      } else if (activeTab === 'orders') {
+        api.getOrders().then(ords => setOrders(ords)).catch(() => {});
+      }
+    }
+  }, [currentUser, activeTab]);
+
   const loadAllData = async () => {
     try {
       const [cats, prods, tbls, ords, rep, inv] = await Promise.all([
@@ -339,7 +350,7 @@ export default function App() {
       )}
 
       {isAdmin && activeTab === 'reports' && (
-        <ReportsView report={report} />
+        <ReportsView report={report} onRefresh={() => api.getTodayReport().then(rep => setReport(rep)).catch(() => {})} />
       )}
 
       {isAdmin && activeTab === 'inventory' && (

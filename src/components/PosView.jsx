@@ -44,10 +44,17 @@ export default function PosView({
       );
 
       if (existingIndex > -1) {
-        const updated = [...prevCart];
-        updated[existingIndex].quantity += 1;
-        updated[existingIndex].subtotal = updated[existingIndex].quantity * updated[existingIndex].unitPrice;
-        return updated;
+        return prevCart.map((item, idx) => {
+          if (idx === existingIndex) {
+            const nextQty = item.quantity + 1;
+            return {
+              ...item,
+              quantity: nextQty,
+              subtotal: nextQty * item.unitPrice
+            };
+          }
+          return item;
+        });
       }
 
       return [
@@ -68,22 +75,33 @@ export default function PosView({
 
   const handleUpdateQuantity = (index, delta) => {
     setCart(prevCart => {
-      const updated = [...prevCart];
-      const newQty = updated[index].quantity + delta;
-      if (newQty <= 0) {
-        return updated.filter((_, idx) => idx !== index);
+      const target = prevCart[index];
+      if (!target) return prevCart;
+      const nextQty = target.quantity + delta;
+      if (nextQty <= 0) {
+        return prevCart.filter((_, idx) => idx !== index);
       }
-      updated[index].quantity = newQty;
-      updated[index].subtotal = newQty * updated[index].unitPrice;
-      return updated;
+      return prevCart.map((item, idx) => {
+        if (idx === index) {
+          return {
+            ...item,
+            quantity: nextQty,
+            subtotal: nextQty * item.unitPrice
+          };
+        }
+        return item;
+      });
     });
   };
 
   const handleUpdateNote = (index, note) => {
     setCart(prevCart => {
-      const updated = [...prevCart];
-      updated[index].itemNote = note;
-      return updated;
+      return prevCart.map((item, idx) => {
+        if (idx === index) {
+          return { ...item, itemNote: note };
+        }
+        return item;
+      });
     });
   };
 
@@ -314,7 +332,7 @@ export default function PosView({
                       </div>
                     </div>
                     <button
-                      onClick={() => handleAddToCart(p)}
+                      type="button" onClick={() => handleAddToCart(p)}
                       style={{
                         width: 36,
                         height: 36,
@@ -504,7 +522,7 @@ export default function PosView({
                     border: '1px solid var(--border-light)'
                   }}>
                     <button
-                      onClick={() => handleUpdateQuantity(idx, -1)}
+                      type="button" onClick={() => handleUpdateQuantity(idx, -1)}
                       style={{ padding: '4px 8px', color: 'var(--text-main)' }}
                     >
                       <Minus size={12} />
@@ -513,7 +531,7 @@ export default function PosView({
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => handleUpdateQuantity(idx, 1)}
+                      type="button" onClick={() => handleUpdateQuantity(idx, 1)}
                       style={{ padding: '4px 8px', color: 'var(--text-main)' }}
                     >
                       <Plus size={12} />
