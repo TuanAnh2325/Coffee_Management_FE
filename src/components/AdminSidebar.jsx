@@ -1,5 +1,5 @@
 import React from 'react';
-import { Store, LayoutGrid, Receipt, UtensilsCrossed, FolderTree, BarChart3, Boxes, Coffee, LogOut } from 'lucide-react';
+import { Store, LayoutGrid, Receipt, UtensilsCrossed, FolderTree, BarChart3, Boxes, Users, Coffee, LogOut } from 'lucide-react';
 
 export default function AdminSidebar({ activeTab, setActiveTab, cartCount, currentUser, onLogout }) {
   const navItems = [
@@ -8,6 +8,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, cartCount, curre
     { id: 'orders', label: 'Lịch sử đơn', icon: Receipt },
     { id: 'menu', label: 'Quản lý thực đơn', icon: UtensilsCrossed },
     { id: 'categories', label: 'Quản lý danh mục', icon: FolderTree },
+    { id: 'users', label: 'Quản lý nhân viên', icon: Users },
     { id: 'reports', label: 'Báo cáo doanh thu', icon: BarChart3 },
     { id: 'inventory', label: 'Quản lý kho hàng', icon: Boxes },
   ];

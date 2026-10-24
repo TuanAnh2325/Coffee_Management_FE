@@ -44,6 +44,46 @@ export const api = {
     }
   },
 
+  // Users Management (Admin)
+  async getUsers() {
+    const res = await fetch(`${API_BASE_URL}/users`);
+    return await handleResponse(res);
+  },
+
+  async createUser(userPayload) {
+    const res = await fetch(`${API_BASE_URL}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userPayload)
+    });
+    return await handleResponse(res);
+  },
+
+  async updateUser(id, userPayload) {
+    const res = await fetch(`${API_BASE_URL}/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userPayload)
+    });
+    return await handleResponse(res);
+  },
+
+  async toggleUserStatus(id, isActive) {
+    const res = await fetch(`${API_BASE_URL}/users/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(isActive !== undefined ? { isActive } : {})
+    });
+    return await handleResponse(res);
+  },
+
+  async deleteUser(id) {
+    const res = await fetch(`${API_BASE_URL}/users/${id}`, {
+      method: 'DELETE'
+    });
+    return await handleResponse(res);
+  },
+
   // Categories CRUD
   async getCategories() {
     const res = await fetch(`${API_BASE_URL}/categories`);
@@ -189,6 +229,16 @@ export const api = {
   // Reports
   async getTodayReport() {
     const res = await fetch(`${API_BASE_URL}/reports/today`);
+    return await handleResponse(res);
+  },
+
+  async getMonthReport(year, month) {
+    let url = `${API_BASE_URL}/reports/month`;
+    const params = [];
+    if (year) params.push(`year=${year}`);
+    if (month) params.push(`month=${month}`);
+    if (params.length > 0) url += '?' + params.join('&');
+    const res = await fetch(url);
     return await handleResponse(res);
   },
 

@@ -10,6 +10,7 @@ import MenuView from './components/MenuView';
 import CategoryView from './components/CategoryView';
 import ReportsView from './components/ReportsView';
 import InventoryView from './components/InventoryView';
+import UsersView from './components/UsersView';
 import ReceiptModal from './components/ReceiptModal';
 import Toast from './components/Toast';
 
@@ -30,6 +31,7 @@ export default function App() {
   const [orders, setOrders] = useState([]);
   const [report, setReport] = useState(null);
   const [inventory, setInventory] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [completedOrder, setCompletedOrder] = useState(null);
@@ -64,6 +66,9 @@ export default function App() {
       if (activeTab === 'reports') {
         api.getTodayReport().then(rep => setReport(rep)).catch(() => {});
       } else if (activeTab === 'orders') {
+      api.getOrders().then(ords => setOrders(ords)).catch(() => {});
+    } else if (activeTab === 'users') {
+      api.getUsers().then(u => setUsers(u)).catch(() => {});
         api.getOrders().then(ords => setOrders(ords)).catch(() => {});
       }
     }
@@ -227,6 +232,7 @@ export default function App() {
       setProducts(prev => [newProduct, ...prev]);
       showToast(`Đã thêm món '${newProduct.name}' vào thực đơn!`);
       api.getInventory().then(inv => setInventory(inv)).catch(() => {});
+        api.getUsers().then(u => setUsers(u)).catch(() => {});
     } catch (err) {
       showToast(err.message || 'Lỗi khi thêm món', 'error');
       throw err;
@@ -277,6 +283,52 @@ export default function App() {
       showToast('Cập nhật số lượng tồn kho thành công!');
     } catch (err) {
       showToast(err.message || 'Lỗi khi cập nhật kho', 'error');
+      throw err;
+    }
+  };
+
+  
+  // --- CRUD NHÂN VIÊN ---
+  const handleAddUser = async (userData) => {
+    try {
+      const newUser = await api.createUser(userData);
+      setUsers(prev => [newUser, ...prev]);
+      showToast(`Đã thêm nhân viên '${newUser.fullName}' thành công!`);
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi thêm nhân viên', 'error');
+      throw err;
+    }
+  };
+
+  const handleUpdateUser = async (userId, userData) => {
+    try {
+      const updated = await api.updateUser(userId, userData);
+      setUsers(prev => prev.map(u => (u.id === userId ? updated : u)));
+      showToast(`Đã cập nhật nhân viên '${updated.fullName}' thành công!`);
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi cập nhật nhân viên', 'error');
+      throw err;
+    }
+  };
+
+  const handleToggleUserStatus = async (userId, newStatus) => {
+    try {
+      const updated = await api.toggleUserStatus(userId, newStatus);
+      setUsers(prev => prev.map(u => (u.id === userId ? updated : u)));
+      showToast(`Đã đổi trạng thái '${updated.fullName}' sang ${updated.isActive ? 'Đang hoạt động' : 'Đã khóa'}!`);
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi cập nhật trạng thái nhân viên', 'error');
+      throw err;
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      await api.deleteUser(userId);
+      setUsers(prev => prev.filter(u => u.id !== userId));
+      showToast('Đã xóa nhân viên thành công!');
+    } catch (err) {
+      showToast(err.message || 'Lỗi khi xóa nhân viên', 'error');
       throw err;
     }
   };
@@ -346,6 +398,18 @@ export default function App() {
           onAddCategory={handleAddCategory}
           onUpdateCategory={handleUpdateCategory}
           onDeleteCategory={handleDeleteCategory}
+        />
+      )}
+
+      {isAdmin && activeTab === 'users' && (
+        <UsersView
+          users={users}
+          loading={loading}
+          onAddUser={handleAddUser}
+          onUpdateUser={handleUpdateUser}
+          onToggleStatus={handleToggleUserStatus}
+          onDeleteUser={handleDeleteUser}
+          currentUser={currentUser}
         />
       )}
 
